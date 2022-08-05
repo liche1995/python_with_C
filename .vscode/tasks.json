@@ -40,6 +40,59 @@
 			],
 			"group": "build",
 			"detail": "編譯器: C:/mingw64/bin/g++.exe"
+		},
+
+		{
+			"label": "export_python_mudule",
+			"dependsOn": ["execute swig", "cpp transfer object file", "cxx transfer object file", "export pyd"]
+		},
+
+		{
+			"type": "process",
+			"label": "c",
+			"command": "swig",
+			"args": [
+				"-python",
+				"-c++",
+				"${fileBasenameNoExtension}.i"
+			],
+		},
+		{
+			"type": "process",
+			"label": "cpp transfer object file",
+			"command": "C:/mingw64/bin/g++.exe",
+			"args": [
+				"-c",
+				"${fileBasenameNoExtension}.cpp"
+			],
+		},
+		{
+			"type": "process",
+			"label": "cxx transfer object file",
+			"command": "C:/mingw64/bin/g++.exe",
+			"args": [
+				"-c",
+				"-fPIC",
+				"${fileBasenameNoExtension}_wrap.cxx",
+				"-IC:/Program Files/Python38/include",
+			],
+		},
+		{
+			"type": "process",
+			"label": "export pyd",
+			"command": "g++",
+			"args": [
+				"${fileBasenameNoExtension}.o",
+				"${fileBasenameNoExtension}_wrap.o",				
+				"-LC:/Program Files/Python38/libs",
+				"-shared",
+				"-lpython38",
+				"-static",
+				"-static-libgcc",
+				"-static-libstdc++",
+				"-o",
+				"_${fileBasenameNoExtension}.pyd"
+			],
 		}
 	]
 }

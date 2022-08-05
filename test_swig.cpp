@@ -42,3 +42,5 @@ int Max_value(int value1,int value2)
  return value2;
 }
 //https://stackoverflow.com/questions/69885600/swig-doesnt-work-on-windows-with-mingw-w64-when-binding-c-and-python-dll-loa
+//https://www.796t.com/post/NjFxMg==.html
+//https://www.twblogs.net/a/5eec69001f92b2f1a17ccc1c/?lang=zh-cn
