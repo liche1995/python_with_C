@@ -42,14 +42,10 @@
 			"detail": "編譯器: C:/mingw64/bin/g++.exe"
 		},
 
-		{
-			"label": "export_python_mudule",
-			"dependsOn": ["execute swig", "cpp transfer object file", "cxx transfer object file", "export pyd"]
-		},
-
+		//step1. make python connect file, wrap file and object file
 		{
 			"type": "process",
-			"label": "c",
+			"label": "make object and py file",
 			"command": "swig",
 			"args": [
 				"-python",
@@ -57,6 +53,7 @@
 				"${fileBasenameNoExtension}.i"
 			],
 		},
+		//step2. make cpp's object file
 		{
 			"type": "process",
 			"label": "cpp transfer object file",
@@ -65,7 +62,9 @@
 				"-c",
 				"${fileBasenameNoExtension}.cpp"
 			],
+			"dependsOn" :["make object and py file"]
 		},
+		//step3. make cxx's object file
 		{
 			"type": "process",
 			"label": "cxx transfer object file",
@@ -76,7 +75,9 @@
 				"${fileBasenameNoExtension}_wrap.cxx",
 				"-IC:/Program Files/Python38/include",
 			],
+			"dependsOn" :["cpp transfer object file"]
 		},
+		//step4. export pyd file 
 		{
 			"type": "process",
 			"label": "export pyd",
@@ -93,6 +94,16 @@
 				"-o",
 				"_${fileBasenameNoExtension}.pyd"
 			],
+			"group": "build",
+			"dependsOn": ["cxx transfer object file"],
+			"presentation":{
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
 		}
 	]
 }
