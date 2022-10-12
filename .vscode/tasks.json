@@ -45,7 +45,7 @@
 		//step1. make python connect file, wrap file and object file
 		{
 			"type": "process",
-			"label": "make object and py file",
+			"label": "1.make object and py file",
 			"command": "swig",
 			"args": [
 				"-python",
@@ -56,18 +56,18 @@
 		//step2. make cpp's object file
 		{
 			"type": "process",
-			"label": "cpp transfer object file",
+			"label": "2.cpp transfer object file",
 			"command": "C:/mingw64/bin/g++.exe",
 			"args": [
 				"-c",
 				"${fileBasenameNoExtension}.cpp"
 			],
-			"dependsOn" :["make object and py file"]
+			"dependsOn" :["1.make object and py file"]
 		},
 		//step3. make cxx's object file
 		{
 			"type": "process",
-			"label": "cxx transfer object file",
+			"label": "3.cxx transfer object file",
 			"command": "C:/mingw64/bin/g++.exe",
 			"args": [
 				"-c",
@@ -75,12 +75,12 @@
 				"${fileBasenameNoExtension}_wrap.cxx",
 				"-IC:/Program Files/Python38/include",
 			],
-			"dependsOn" :["cpp transfer object file"]
+			"dependsOn" :["2.cpp transfer object file"]
 		},
 		//step4. export pyd file 
 		{
 			"type": "process",
-			"label": "export pyd",
+			"label": "4.export pyd",
 			"command": "g++",
 			"args": [
 				"${fileBasenameNoExtension}.o",
@@ -95,7 +95,7 @@
 				"_${fileBasenameNoExtension}.pyd"
 			],
 			"group": "build",
-			"dependsOn": ["cxx transfer object file"],
+			"dependsOn": ["3.cxx transfer object file"],
 			"presentation":{
 				"echo": true,
 				"reveal": "always",
